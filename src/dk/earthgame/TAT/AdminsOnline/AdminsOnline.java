@@ -1,7 +1,11 @@
 package dk.earthgame.TAT.AdminsOnline;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -14,14 +18,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.config.Configuration;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
-import com.nijiko.permissions.PermissionHandler;
 
 /**
  * AdminsOnline for Bukkit
@@ -29,7 +32,7 @@ import com.nijiko.permissions.PermissionHandler;
  * @author TAT
  */
 public class AdminsOnline extends JavaPlugin {
-	public static PermissionHandler Permissions = null;
+	public Permissions Permissions = null;
     public boolean usePermissions = false;
 	public PluginDescriptionFile pdfFile = this.getDescription();
     public Configuration config;
@@ -44,23 +47,22 @@ public class AdminsOnline extends JavaPlugin {
 
 	private final AdminsOnlinePlayerListener playerListener = new AdminsOnlinePlayerListener(this);
 	
-	protected static final Logger log = Logger.getLogger("Minecraft");
+	protected static final Logger log = Logger.getLogger("Minecraft.AdminsOnline");
 	
 	//----------------------------------------------------------
 	
     public AdminsOnline(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
-        super(pluginLoader, instance, desc, folder, plugin, cLoader);
+    	super(pluginLoader, instance, desc, folder, plugin, cLoader);
         folder.mkdirs();
-        // NOTE: Event registration should be done in onEnable not here as all events are unregistered when a plugin is disabled
     }
     
     public void setupPermissions() {
     	// Initialize permissions system
     	Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
 
-    	if(AdminsOnline.Permissions == null) {
+    	if(Permissions == null) {
 		    if(test != null) {
-    			AdminsOnline.Permissions = ((Permissions)test).getHandler();
+    			Permissions = (Permissions)test;
     	    	output("Permission system found.");
 		    } else {
     	    	output("Permission system not found.");
@@ -73,6 +75,7 @@ public class AdminsOnline extends JavaPlugin {
     	PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Normal, this);
 
+        
         log.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");        
         createDefaultConfiguration();
     	loadConfiguration();
@@ -100,7 +103,7 @@ public class AdminsOnline extends JavaPlugin {
         } else {
         	output("Not using OP!");
         }
-    	if (UsePermissions) {
+    	if (UsePermissions && Permissions == null) {
     		output("Searching for Permissions");
     		setupPermissions();
         }
@@ -151,8 +154,8 @@ public class AdminsOnline extends JavaPlugin {
         }
     }
     
-    public ChatColor playerColor(String player) {
-    	String color = PermissionColors.get(Permissions.getGroup(player));
+    public ChatColor playerColor(String world,String player) {
+    	String color = PermissionColors.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player));
     	if (color.equalsIgnoreCase("aqua"))
     		return ChatColor.AQUA;
     	if (color.equalsIgnoreCase("black"))
@@ -186,10 +189,10 @@ public class AdminsOnline extends JavaPlugin {
     	return ChatColor.WHITE;
     }
     
-    public String playerGroup(Player player) {
+    public String playerGroup(String world,Player player) {
     	if (UsePermissions) {
-			if (PermissionGroups.get(Permissions.getGroup(player.getName())) != null) {
-				return PermissionGroups.get(Permissions.getGroup(player.getName()));
+			if (PermissionGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player.getName())) != null) {
+				return PermissionGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player.getName()));
 			} else {
 				return "";
 			}
@@ -197,17 +200,58 @@ public class AdminsOnline extends JavaPlugin {
 			return "";
 		}
     }
+
+	@SuppressWarnings("unused")
+    boolean playerSaved(String player) {
+    	if (getServer().getPlayer(player) != null) {
+    		return true;
+    	}
+    	try {
+			FileInputStream test = new FileInputStream("world/players/"+player+".dat");
+    	}
+    	catch (FileNotFoundException e) {
+    		return false;
+    	}
+    	return true;
+    }
     
-    public Integer playerIsAdmin(String player) {
+    public Integer playerIsAdmin(String world,String player) {
     	if (player != null) {
     		if (UsePermissions) {
-				if (PermissionGroups.get(Permissions.getGroup(player)) != null) {
-					return 2;
-				}
+    			if (com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world, player) != null) {
+    				if (PermissionGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player)) != null) {
+						return 2;
+					}
+    			}
     		}
 			if (UseOP) {
-				if (getServer().getPlayer(player).isOp()) {
-					return 1;
+				if (playerSaved(player)) {
+					try {
+						if (getServer().getPlayer(player) != null) {
+							if (getServer().getPlayer(player).isOp()) {
+								return 1;
+							} else {
+								return 0;
+							}
+						}
+						FileReader open = new FileReader("ops.txt");
+						BufferedReader read = new BufferedReader(open);
+						String OP = null;
+						try {
+							while ((OP = read.readLine()) != null) {
+								if (OP.equalsIgnoreCase(player)) {
+									return 1;
+								}
+							}
+							read.close();
+							open.close();
+						} catch (IOException e) {
+							log.warning(e.toString());
+						}
+			    	} catch (FileNotFoundException e) {
+			    		log.warning("Couldn't get OPs");
+			    	}
+					return 0;
 				} else {
 					return 0;
 				}

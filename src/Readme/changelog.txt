@@ -2,6 +2,12 @@ Plugin: AdminsOnline
 Author: TAT
 CHANGELOG
 
+0.5.3
+Fixed stupidly long constructor
+Fixed support for Permissions 2.1
+Fixed possibility to lookup offline users - again again
+No search for Permissions when reloading configuration if Permissions already is found
+
 0.5.2
 Fixed colors if using both OP and Permissions
 

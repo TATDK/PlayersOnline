@@ -16,7 +16,7 @@ public class AdminsOnlinePlayerListener extends PlayerListener {
 		Player players[] = plugin.getServer().getOnlinePlayers();
 		int x = 0;
 		for(Player hurrdurr: players){
-			if (plugin.playerIsAdmin(hurrdurr.getName()) > 0) {
+			if (plugin.playerIsAdmin(hurrdurr.getWorld().getName().toString(),hurrdurr.getName()) > 0) {
 				x++;
 			}
 		}
@@ -29,10 +29,11 @@ public class AdminsOnlinePlayerListener extends PlayerListener {
 
 	public void onPlayerCommand(PlayerChatEvent event) {
   		Player player = event.getPlayer();
+  		String world = player.getWorld().getName().toString();
   		String[] message = event.getMessage().split(" ");
   		if (message[0].equalsIgnoreCase("/reloadao")) {
   			event.setCancelled(true);
-  			if (plugin.playerIsAdmin(player.getName()) > 0) {
+  			if (plugin.playerIsAdmin(world,player.getName()) > 0) {
 	            try {
 	            	plugin.loadConfiguration();
 	                player.sendMessage(ChatColor.WHITE + plugin.pdfFile.getName() + ChatColor.GREEN +": Configuration reloaded.");
@@ -46,13 +47,13 @@ public class AdminsOnlinePlayerListener extends PlayerListener {
   		if (message[0].equalsIgnoreCase("/adminsonline") || message[0].equalsIgnoreCase(AdminsOnline.ShortCommand)) {
 			event.setCancelled(true);
 			if (message.length > 1) {
-				Integer adminStatus = plugin.playerIsAdmin(message[1]);
+				Integer adminStatus = plugin.playerIsAdmin(world,message[1]);
 				if (adminStatus > 0) {
   					if (plugin.getServer().getPlayer(message[1]) != null) {
   						if (plugin.getServer().getPlayer(message[1]).isOnline()) {
   							player.sendMessage(ChatColor.GREEN + message[1] + " is online!");
   	  						if (adminStatus == 2) {
-  	  							player.sendMessage(ChatColor.GREEN + "Group: " + plugin.playerColor(plugin.getServer().getPlayer(message[1]).getName()) + plugin.playerGroup(plugin.getServer().getPlayer(message[1])));
+  	  							player.sendMessage(ChatColor.GREEN + "Group: " + plugin.playerColor(world,plugin.getServer().getPlayer(message[1]).getName()) + plugin.playerGroup(world,plugin.getServer().getPlayer(message[1])));
   	  						}
   						} else {
   							player.sendMessage(ChatColor.RED + message[1] + " isn't online!");
@@ -69,17 +70,17 @@ public class AdminsOnlinePlayerListener extends PlayerListener {
 	
 				for(Player p : plugin.getServer().getOnlinePlayers())
 				{
-					if(p != null && plugin.playerIsAdmin(p.getName()) > 0 && x+1 == playerCount()){
-						if (plugin.playerIsAdmin(p.getName()) == 2) {
-							tempList+= plugin.playerColor(p.getName()) + p.getName();
+					if(p != null && plugin.playerIsAdmin(world,p.getName()) > 0 && x+1 == playerCount()){
+						if (plugin.playerIsAdmin(world,p.getName()) == 2) {
+							tempList+= plugin.playerColor(world,p.getName()) + p.getName();
 						} else {
 							tempList+= p.getName();
 						}
 						x++;
 					}
-					if(p != null && plugin.playerIsAdmin(p.getName()) > 0 && x < playerCount()){
-						if (plugin.playerIsAdmin(p.getName()) == 2) {
-							tempList+= plugin.playerColor(p.getName()) + p.getName() + ", ";
+					if(p != null && plugin.playerIsAdmin(world,p.getName()) > 0 && x < playerCount()){
+						if (plugin.playerIsAdmin(world,p.getName()) == 2) {
+							tempList+= plugin.playerColor(world,p.getName()) + p.getName() + ", ";
 						} else {
 							tempList+= p.getName() + ", ";
 						}
