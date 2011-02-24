@@ -1,0 +1,19 @@
+*****************************
+           Features
+*****************************
+- Show which admins there is online
+- Lookup a specific player to see if the player is admin and if, show if the admin is online
+- Toggle OP lookup
+- Permissions
+   - Toggle Permissions lookup
+   - Multiple groups with different colors
+
+*****************************
+  Standard Configuration
+*****************************
+- See config.yml in the config folder
+
+*****************************
+         Changelog
+*****************************
+- See changelog.txt in the readme folder
