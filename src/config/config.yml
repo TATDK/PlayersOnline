@@ -1,0 +1,74 @@
+##
+#Plugin: AdminsOnline
+#Author: TAT
+#CONFIGURATION
+##
+
+##
+#Config: ShowInfo
+#Doing: Activate to output settings to console
+#Example: true = activate // false = deactivate
+##
+ShowInfo: true
+
+##
+#Config: UseOP / UsePermissions
+#Doing: Here you can activate OP and/or Permissions
+#Example: true = activate // false = deactivate
+##
+UseOP: true
+UsePermissions: true
+
+##
+#Config: ShortCommand
+#Doing: Here you can type a short command for users to use aside with /adminsonline
+#Example: /admins
+##
+ShortCommand: "/admins"
+
+##
+#Config: PermissionGroups
+#Doing: Here you can setup the groups in Permissions that are registered as admins by AdminsOnline
+#       Every group is setup like this:
+#           Groupname in Permissions: Shown name 
+#       Remember comma between groups and write the groups between the { and }.
+##
+PermissionGroups: {
+    OwnerGroup: Owners,
+    SupAdminGroup: Super-Admins,
+    AdminGroup: Admins,
+    SupModeratorGroup: Super-Moderators,
+    ModeratorGroup: Moderators 
+}
+
+##
+#Config: PermissionColors
+#Doing: Here you can setup colors for the groups set in PermissionGroups
+#       Every group is setup like this:
+#           Groupname in Permissions: Color 
+#       Remember comma between groups and write the groups between the { and }.
+#Colorcodes:
+#       aqua
+#       black
+#       blue
+#       dark_aqua
+#       dark_blue
+#       dark_gray
+#       dark_green
+#       dark_purple
+#       dark_red
+#       gold
+#       gray
+#       green
+#       light_purple
+#       red
+#       white
+#       yellow
+##
+PermissionColors: {
+    OwnerGroup: gold,
+    SupAdminGroup: dark_red,
+    AdminGroup: red,
+    SupModeratorGroup: dark_aqua,
+    ModeratorGroup: aqua
+}

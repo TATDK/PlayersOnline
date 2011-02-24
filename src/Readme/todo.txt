@@ -1,0 +1,5 @@
+Plugin: AdminsOnline
+Author: TAT
+TODO
+
+- Add possibility for more aliases

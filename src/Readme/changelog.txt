@@ -1,0 +1,29 @@
+Plugin: AdminsOnline
+Author: TAT
+CHANGELOG
+
+0.5.2
+Fixed colors if using both OP and Permissions
+
+0.5.1
+Fixed possibility to lookup offline users - again
+
+0.5
+Added config to activate/deactivate OP, Permissions and ConsoleOutput
+Added support for multiple Permissions groups with different colors
+
+0.4
+Added support for Permissions
+Added /reloadao command to reload the configuration
+Fixed possibility to lookup offline users
+
+0.3
+Removed aliases and added config to set your own alias (ShortCommand)
+
+0.2
+Added aliases /adminon, /onlineadmin, /onlineadmins
+
+0.1
+Show admins online
+Check specific admin using /adminsonline Username
+Show if the specific admin really is an admin (using OP)
