@@ -3,4 +3,3 @@ Author: TAT
 TODO
 
 - Add possibility for more aliases
-- On login, you'll get an message same as /adminsonline (Toggle able)

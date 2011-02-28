@@ -34,11 +34,12 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 public class AdminsOnline extends JavaPlugin {
 	public Permissions Permissions = null;
     public boolean usePermissions = false;
-	public PluginDescriptionFile pdfFile = this.getDescription();
+	public PluginDescriptionFile pdfFile;
     public Configuration config;
     public static Boolean ShowInfo = true;
-    public static Boolean UseOP;
-    public static Boolean UsePermissions;
+    public static Boolean UseOP = true;
+    public static Boolean UsePermissions = true;
+    public static Boolean ShowOnLogin = true;
     public static String ShortCommand = "/adminsonline";
     //PermissionGroups = Groupname, Shown Groupname
     public static Map<String, String> PermissionGroups = new HashMap<String, String>();
@@ -51,11 +52,34 @@ public class AdminsOnline extends JavaPlugin {
 	
 	//----------------------------------------------------------
 	
-    public AdminsOnline(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
-    	super(pluginLoader, instance, desc, folder, plugin, cLoader);
-        folder.mkdirs();
+	public AdminsOnline(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
+	     super();
+	     folder.mkdirs();
+	}
+
+    public void onEnable() {
+        // Register our events
+    	PluginManager pm = getServer().getPluginManager();
+        pm.registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
+        
+        pdfFile = this.getDescription();
+        
+        log.info(
+        	pdfFile.getName()
+        	+ " version " +
+        	pdfFile.getVersion() +
+        	" is enabled!"
+        );        
+        createDefaultConfiguration();
+    	loadConfiguration();
     }
     
+    public void onDisable() {
+        // NOTE: All registered events are automatically unregistered when a plugin is disabled
+    	log.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is disabled!");
+    }
+	
     public void setupPermissions() {
     	// Initialize permissions system
     	Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
@@ -68,21 +92,6 @@ public class AdminsOnline extends JavaPlugin {
     	    	output("Permission system not found.");
 		    }
     	}
-    }
-
-    public void onEnable() {
-        // Register our events
-    	PluginManager pm = getServer().getPluginManager();
-        pm.registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Normal, this);
-
-        
-        log.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");        
-        createDefaultConfiguration();
-    	loadConfiguration();
-    }
-    public void onDisable() {
-        // NOTE: All registered events are automatically unregistered when a plugin is disabled
-    	log.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is disabled!");
     }
     
     public void output(String msg) {
@@ -98,6 +107,7 @@ public class AdminsOnline extends JavaPlugin {
         ShowInfo = config.getBoolean("ShowInfo",true);
         UseOP = config.getBoolean("UseOP",true);
         UsePermissions = config.getBoolean("UsePermissions",false);
+        ShowOnLogin = config.getBoolean("ShowOnLogin",true);
     	if (UseOP) {
         	output("Using OP");
         } else {
@@ -106,6 +116,9 @@ public class AdminsOnline extends JavaPlugin {
     	if (UsePermissions && Permissions == null) {
     		output("Searching for Permissions");
     		setupPermissions();
+        }
+    	if (ShowOnLogin) {
+    		output("Shows admins online on login");
         }
     	if (config.getString("ShortCommand") != null && config.getString("ShortCommand") != "") {
         	ShortCommand = config.getString("ShortCommand");

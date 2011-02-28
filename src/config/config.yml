@@ -20,6 +20,13 @@ UseOP: true
 UsePermissions: true
 
 ##
+#Config: ShowOnLogin
+#Doing: Activate show admins online on login
+#Example: true = activate // false = deactivate
+##
+ShowOnLogin: true
+
+##
 #Config: ShortCommand
 #Doing: Here you can type a short command for users to use aside with /adminsonline
 #Example: /admins

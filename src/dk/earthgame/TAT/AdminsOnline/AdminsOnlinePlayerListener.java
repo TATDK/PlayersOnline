@@ -3,6 +3,7 @@ package dk.earthgame.TAT.AdminsOnline;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerListener;
 
 /**
@@ -11,6 +12,10 @@ import org.bukkit.event.player.PlayerListener;
  */
 public class AdminsOnlinePlayerListener extends PlayerListener {
 	private final AdminsOnline plugin;
+	 
+	public AdminsOnlinePlayerListener(AdminsOnline instance) {
+		plugin = instance;
+	}
 
 	public int playerCount(){
 		Player players[] = plugin.getServer().getOnlinePlayers();
@@ -22,9 +27,48 @@ public class AdminsOnlinePlayerListener extends PlayerListener {
 		}
 		return x;
 	}
-	 
-	public AdminsOnlinePlayerListener(AdminsOnline instance) {
-		plugin = instance;
+	
+	private void showAdminsOnline(String world,Player player) {
+		String tempList = "";
+		int x = 0;
+
+		for(Player p : plugin.getServer().getOnlinePlayers())
+		{
+			if(p != null && plugin.playerIsAdmin(world,p.getName()) > 0 && x+1 == playerCount()){
+				if (plugin.playerIsAdmin(world,p.getName()) == 2) {
+					tempList+= plugin.playerColor(world,p.getName()) + p.getName();
+				} else {
+					tempList+= p.getName();
+				}
+				x++;
+			}
+			if(p != null && plugin.playerIsAdmin(world,p.getName()) > 0 && x < playerCount()){
+				if (plugin.playerIsAdmin(world,p.getName()) == 2) {
+					tempList+= plugin.playerColor(world,p.getName()) + p.getName() + ", ";
+				} else {
+					tempList+= p.getName() + ", ";
+				}
+				x++;
+			}
+		}
+		if (tempList == "") {
+			player.sendMessage(ChatColor.RED + "No admins online");
+		} else {
+			if (playerCount() > 1) {
+				player.sendMessage(ChatColor.WHITE + "" + x + ChatColor.RED + " Online Admins:");
+			} else {
+				player.sendMessage(ChatColor.WHITE + "" + x + ChatColor.RED + " Online Admin:");
+			}
+			player.sendMessage(tempList);
+		}
+	}
+	
+	public void onPlayerJoin(PlayerEvent event) {
+		if (AdminsOnline.ShowOnLogin) {
+			Player player = event.getPlayer();
+			String world = player.getWorld().getName().toString();
+			showAdminsOnline(world,player);
+		}
 	}
 
 	public void onPlayerCommand(PlayerChatEvent event) {
@@ -65,38 +109,7 @@ public class AdminsOnlinePlayerListener extends PlayerListener {
   					player.sendMessage(ChatColor.DARK_RED + message[1] + " isn't an admin!");
   				}
   			} else {
-				String tempList = "";
-				int x = 0;
-	
-				for(Player p : plugin.getServer().getOnlinePlayers())
-				{
-					if(p != null && plugin.playerIsAdmin(world,p.getName()) > 0 && x+1 == playerCount()){
-						if (plugin.playerIsAdmin(world,p.getName()) == 2) {
-							tempList+= plugin.playerColor(world,p.getName()) + p.getName();
-						} else {
-							tempList+= p.getName();
-						}
-						x++;
-					}
-					if(p != null && plugin.playerIsAdmin(world,p.getName()) > 0 && x < playerCount()){
-						if (plugin.playerIsAdmin(world,p.getName()) == 2) {
-							tempList+= plugin.playerColor(world,p.getName()) + p.getName() + ", ";
-						} else {
-							tempList+= p.getName() + ", ";
-						}
-						x++;
-					}
-				}
-				if (tempList == "") {
-					player.sendMessage(ChatColor.RED + "No admins online");
-				} else {
-					if (playerCount() > 1) {
-						player.sendMessage(ChatColor.WHITE + "" + x + ChatColor.RED + " Online Admins:");
-					} else {
-						player.sendMessage(ChatColor.WHITE + "" + x + ChatColor.RED + " Online Admin:");
-					}
-					player.sendMessage(tempList);
-				}
+  				showAdminsOnline(world, player);
   			}
   		}
 	 }

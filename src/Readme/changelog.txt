@@ -2,6 +2,10 @@ Plugin: AdminsOnline
 Author: TAT
 CHANGELOG
 
+0.6
+Added possibility to show admins online on login - toggleable in config
+Fixed stupidly long constructor
+
 0.5.3
 Fixed stupidly long constructor
 Fixed support for Permissions 2.1
