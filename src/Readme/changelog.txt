@@ -2,6 +2,10 @@ Plugin: AdminsOnline
 Author: TAT
 CHANGELOG
 
+0.7
+Updated to latest bukkit [#493]
+Temporary disabled ShortCommand/AliasCommand
+
 0.6
 Added possibility to show admins online on login - toggleable in config
 Fixed stupidly long constructor

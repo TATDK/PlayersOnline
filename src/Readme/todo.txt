@@ -2,4 +2,4 @@ Plugin: AdminsOnline
 Author: TAT
 TODO
 
-- Add possibility for more aliases
+- Get ShortCommand to work again

@@ -13,13 +13,11 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.config.Configuration;
@@ -40,28 +38,36 @@ public class AdminsOnline extends JavaPlugin {
     public static Boolean UseOP = true;
     public static Boolean UsePermissions = true;
     public static Boolean ShowOnLogin = true;
+	public AdminsOnlineWorker worker = new AdminsOnlineWorker(this);
+    /*
+     * Version 0.7
+     * Currently removed.
+     * "I'll be back"
+     * 
     public static String ShortCommand = "/adminsonline";
+     */
     //PermissionGroups = Groupname, Shown Groupname
     public static Map<String, String> PermissionGroups = new HashMap<String, String>();
     //PermissionColors = Groupname, Groupcolor
     public static Map<String, String> PermissionColors = new HashMap<String, String>();
 
-	private final AdminsOnlinePlayerListener playerListener = new AdminsOnlinePlayerListener(this);
+	private AdminsOnlineJoinExecutor joinExecutor;
 	
 	protected static final Logger log = Logger.getLogger("Minecraft.AdminsOnline");
 	
 	//----------------------------------------------------------
 	
-	public AdminsOnline(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
-	     super();
-	     folder.mkdirs();
+	public AdminsOnline() {
+    	joinExecutor = new AdminsOnlineJoinExecutor(worker);
 	}
 
     public void onEnable() {
         // Register our events
+    	getCommand("reloadao").setExecutor(new AdminsOnlineCommandExecutor(this,worker));
+    	getCommand("adminsonline").setExecutor(new AdminsOnlineCommandExecutor(this,worker));
+    	
     	PluginManager pm = getServer().getPluginManager();
-        pm.registerEvent(Event.Type.PLAYER_COMMAND, playerListener, Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_JOIN, joinExecutor, Priority.Normal, this);
         
         pdfFile = this.getDescription();
         
@@ -120,12 +126,19 @@ public class AdminsOnline extends JavaPlugin {
     	if (ShowOnLogin) {
     		output("Shows admins online on login");
         }
-    	if (config.getString("ShortCommand") != null && config.getString("ShortCommand") != "") {
-        	ShortCommand = config.getString("ShortCommand");
+    	/*
+    	 * Version 0.7
+    	 * Currently removed.
+         * "I'll be back"
+         * 
+        if (config.getString("ShortCommand") != null && config.getString("ShortCommand") != "") {
+         	ShortCommand = config.getString("ShortCommand");
+        	getCommand(ShortCommand).setExecutor(new AdminsOnlineCommandExecutor(this));
         	output("Added alias " + config.getString("ShortCommand"));
         } else {
         	output("No alias added!");
         }
+        */
 		PermissionGroups = (Map<String, String>)config.getProperty("PermissionGroups");
 		PermissionColors = (Map<String, String>)config.getProperty("PermissionColors");
     }
@@ -266,6 +279,25 @@ public class AdminsOnline extends JavaPlugin {
 			    	}
 					return 0;
 				} else {
+					FileReader open;
+					try {
+						open = new FileReader("ops.txt");
+						BufferedReader read = new BufferedReader(open);
+						String OP = null;
+						try {
+							while ((OP = read.readLine()) != null) {
+								if (OP.equalsIgnoreCase(player)) {
+									return 1;
+								}
+							}
+							read.close();
+							open.close();
+						} catch (IOException e) {
+							log.warning(e.toString());
+						}
+					} catch (FileNotFoundException e1) {
+						log.warning(e1.toString());
+					}
 					return 0;
 				}
 			} else {
