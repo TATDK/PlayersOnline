@@ -37,7 +37,7 @@ public class AdminsOnlineCommandExecutor implements CommandExecutor {
   				return true;
   			}
   		}
-  		if (command.getName().equalsIgnoreCase("adminsonline")/* || command.toString().equalsIgnoreCase(AdminsOnline.ShortCommand)*/) {
+  		if (command.getName().equalsIgnoreCase("adminsonline")) {
 			if (args.length > 0) {
 				int adminStatus = plugin.playerIsAdmin(world,args[0]);
 				if (adminStatus > 0) {

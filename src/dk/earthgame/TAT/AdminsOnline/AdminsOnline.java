@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -39,13 +40,7 @@ public class AdminsOnline extends JavaPlugin {
     public static Boolean UsePermissions = true;
     public static Boolean ShowOnLogin = true;
 	public AdminsOnlineWorker worker = new AdminsOnlineWorker(this);
-    /*
-     * Version 0.7
-     * Currently removed.
-     * "I'll be back"
-     * 
-    public static String ShortCommand = "/adminsonline";
-     */
+    public static List<String> ShortCommand;
     //PermissionGroups = Groupname, Shown Groupname
     public static Map<String, String> PermissionGroups = new HashMap<String, String>();
     //PermissionColors = Groupname, Groupcolor
@@ -71,18 +66,17 @@ public class AdminsOnline extends JavaPlugin {
         
         pdfFile = this.getDescription();
         
-        log.info(
-        	pdfFile.getName()
-        	+ " version " +
-        	pdfFile.getVersion() +
-        	" is enabled!"
-        );        
+        log.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");        
         createDefaultConfiguration();
     	loadConfiguration();
     }
     
     public void onDisable() {
         // NOTE: All registered events are automatically unregistered when a plugin is disabled
+    	getCommand("reloadao").setExecutor(new AdminsOnlineDisabled(this));
+    	getCommand("adminsonline").setExecutor(new AdminsOnlineDisabled(this));
+    	ShortCommand.clear();
+    	getCommand("adminsonline").setAliases(ShortCommand);
     	log.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is disabled!");
     }
 	
@@ -126,19 +120,15 @@ public class AdminsOnline extends JavaPlugin {
     	if (ShowOnLogin) {
     		output("Shows admins online on login");
         }
-    	/*
-    	 * Version 0.7
-    	 * Currently removed.
-         * "I'll be back"
-         * 
-        if (config.getString("ShortCommand") != null && config.getString("ShortCommand") != "") {
-         	ShortCommand = config.getString("ShortCommand");
-        	getCommand(ShortCommand).setExecutor(new AdminsOnlineCommandExecutor(this));
+    	if (config.getString("ShortCommand") != null && config.getString("ShortCommand") != "") {
+    		ShortCommand.clear();
+         	ShortCommand.add(config.getString("ShortCommand"));
+        	getCommand("adminsonline").setAliases(ShortCommand);
         	output("Added alias " + config.getString("ShortCommand"));
         } else {
+        	ShortCommand.clear();
         	output("No alias added!");
         }
-        */
 		PermissionGroups = (Map<String, String>)config.getProperty("PermissionGroups");
 		PermissionColors = (Map<String, String>)config.getProperty("PermissionColors");
     }
