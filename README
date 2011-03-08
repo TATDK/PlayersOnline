@@ -1,4 +1,11 @@
 *****************************
+       DEV VERSIONS
+*****************************
+All files after a release is in dev mode.
+There is therefore no warrenty about the code is working and is therefore provided "as is".
+It is because I can commit new changes and not testing it before later in the progress.
+
+*****************************
            Features
 *****************************
 - Show which admins there is online

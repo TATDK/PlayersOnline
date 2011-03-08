@@ -1,6 +1,6 @@
 name: AdminsOnline
 main: dk.earthgame.TAT.AdminsOnline.AdminsOnline
-version: 0.7
+version: 0.7DEV
 commands:
     adminsonline:
         description: Show which admins there are online

@@ -122,7 +122,7 @@ public class AdminsOnline extends JavaPlugin {
         }
     	if (config.getString("ShortCommand") != null && config.getString("ShortCommand") != "") {
     		ShortCommand.clear();
-         	ShortCommand.add(config.getString("ShortCommand"));
+         	ShortCommand.add(config.getString("ShortCommand").replace("/", ""));
         	getCommand("adminsonline").setAliases(ShortCommand);
         	output("Added alias " + config.getString("ShortCommand"));
         } else {
@@ -173,36 +173,36 @@ public class AdminsOnline extends JavaPlugin {
     public ChatColor playerColor(String world,String player) {
     	String color = PermissionColors.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player));
     	if (color != null) {
-    	if (color.equalsIgnoreCase("aqua"))
-    		return ChatColor.AQUA;
-    	if (color.equalsIgnoreCase("black"))
-    		return ChatColor.BLACK;
-    	if (color.equalsIgnoreCase("blue"))
-    		return ChatColor.BLUE;
-    	if (color.equalsIgnoreCase("dark_aqua"))
-    		return ChatColor.DARK_AQUA;
-    	if (color.equalsIgnoreCase("dark_blue"))
-    		return ChatColor.DARK_BLUE;
-    	if (color.equalsIgnoreCase("dark_gray"))
-    		return ChatColor.DARK_GRAY;
-    	if (color.equalsIgnoreCase("dark_green"))
-    		return ChatColor.DARK_GREEN;
-    	if (color.equalsIgnoreCase("dark_purple"))
-    		return ChatColor.DARK_PURPLE;
-    	if (color.equalsIgnoreCase("dark_red"))
-    		return ChatColor.DARK_RED;
-    	if (color.equalsIgnoreCase("gold"))
-    		return ChatColor.GOLD;
-    	if (color.equalsIgnoreCase("gray"))
-    		return ChatColor.GRAY;
-    	if (color.equalsIgnoreCase("green"))
-    		return ChatColor.GREEN;
-    	if (color.equalsIgnoreCase("light_purple"))
-    		return ChatColor.LIGHT_PURPLE;
-    	if (color.equalsIgnoreCase("red"))
-    		return ChatColor.RED;
-    	if (color.equalsIgnoreCase("yellow"))
-    		return ChatColor.YELLOW;
+	    	if (color.equalsIgnoreCase("aqua"))
+	    		return ChatColor.AQUA;
+	    	if (color.equalsIgnoreCase("black"))
+	    		return ChatColor.BLACK;
+	    	if (color.equalsIgnoreCase("blue"))
+	    		return ChatColor.BLUE;
+	    	if (color.equalsIgnoreCase("dark_aqua"))
+	    		return ChatColor.DARK_AQUA;
+	    	if (color.equalsIgnoreCase("dark_blue"))
+	    		return ChatColor.DARK_BLUE;
+	    	if (color.equalsIgnoreCase("dark_gray"))
+	    		return ChatColor.DARK_GRAY;
+	    	if (color.equalsIgnoreCase("dark_green"))
+	    		return ChatColor.DARK_GREEN;
+	    	if (color.equalsIgnoreCase("dark_purple"))
+	    		return ChatColor.DARK_PURPLE;
+	    	if (color.equalsIgnoreCase("dark_red"))
+	    		return ChatColor.DARK_RED;
+	    	if (color.equalsIgnoreCase("gold"))
+	    		return ChatColor.GOLD;
+	    	if (color.equalsIgnoreCase("gray"))
+	    		return ChatColor.GRAY;
+	    	if (color.equalsIgnoreCase("green"))
+	    		return ChatColor.GREEN;
+	    	if (color.equalsIgnoreCase("light_purple"))
+	    		return ChatColor.LIGHT_PURPLE;
+	    	if (color.equalsIgnoreCase("red"))
+	    		return ChatColor.RED;
+	    	if (color.equalsIgnoreCase("yellow"))
+	    		return ChatColor.YELLOW;
     	}
     	return ChatColor.WHITE;
     }

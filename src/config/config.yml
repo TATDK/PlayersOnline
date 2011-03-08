@@ -29,9 +29,9 @@ ShowOnLogin: true
 ##
 #Config: ShortCommand
 #Doing: Here you can type a short command for users to use aside with /adminsonline
-#Example: /admins
+#Example: admins
 ##
-ShortCommand: "/admins"
+ShortCommand: "admins"
 
 ##
 #Config: PermissionGroups

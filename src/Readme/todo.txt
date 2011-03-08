@@ -2,4 +2,3 @@ Plugin: AdminsOnline
 Author: TAT
 TODO
 
-- Get ShortCommand to work again
