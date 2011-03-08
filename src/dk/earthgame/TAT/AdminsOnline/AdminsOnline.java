@@ -172,6 +172,7 @@ public class AdminsOnline extends JavaPlugin {
     
     public ChatColor playerColor(String world,String player) {
     	String color = PermissionColors.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player));
+    	if (color != null) {
     	if (color.equalsIgnoreCase("aqua"))
     		return ChatColor.AQUA;
     	if (color.equalsIgnoreCase("black"))
@@ -202,6 +203,7 @@ public class AdminsOnline extends JavaPlugin {
     		return ChatColor.RED;
     	if (color.equalsIgnoreCase("yellow"))
     		return ChatColor.YELLOW;
+    	}
     	return ChatColor.WHITE;
     }
     
