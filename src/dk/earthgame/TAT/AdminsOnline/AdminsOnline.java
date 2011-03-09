@@ -125,10 +125,10 @@ public class AdminsOnline extends JavaPlugin {
     		ShortCommand.clear();
          	ShortCommand.add(config.getString("ShortCommand").replace("/", ""));
          	getCommand("adminsonline").setAliases(ShortCommand);
-        	output("Added alias /" + config.getString("ShortCommand").replace("/", ""));
+        	//output("Added alias /" + config.getString("ShortCommand").replace("/", ""));
         } else {
         	ShortCommand.clear();
-        	output("No alias added!");
+        	//output("No alias added!");
         }
 		PermissionGroups = (Map<String, String>)config.getProperty("PermissionGroups");
 		PermissionColors = (Map<String, String>)config.getProperty("PermissionColors");
