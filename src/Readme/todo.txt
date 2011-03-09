@@ -2,3 +2,4 @@ Plugin: AdminsOnline
 Author: TAT
 TODO
 
+Fix ShortCommand

@@ -2,9 +2,8 @@ Plugin: AdminsOnline
 Author: TAT
 CHANGELOG
 
-0.7DEV
+0.8
 Fixed when no PermissionsColors set for an admin group
-Welcome back to ShortCommand
 
 0.7
 Updated to latest bukkit [#493]

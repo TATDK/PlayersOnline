@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class AdminsOnline extends JavaPlugin {
     public static Boolean UsePermissions = true;
     public static Boolean ShowOnLogin = true;
 	public AdminsOnlineWorker worker = new AdminsOnlineWorker(this);
-    public static List<String> ShortCommand;
+    public List<String> ShortCommand = new ArrayList<String>();
     //PermissionGroups = Groupname, Shown Groupname
     public static Map<String, String> PermissionGroups = new HashMap<String, String>();
     //PermissionColors = Groupname, Groupcolor
@@ -123,8 +124,8 @@ public class AdminsOnline extends JavaPlugin {
     	if (config.getString("ShortCommand") != null && config.getString("ShortCommand") != "") {
     		ShortCommand.clear();
          	ShortCommand.add(config.getString("ShortCommand").replace("/", ""));
-        	getCommand("adminsonline").setAliases(ShortCommand);
-        	output("Added alias " + config.getString("ShortCommand"));
+         	getCommand("adminsonline").setAliases(ShortCommand);
+        	output("Added alias /" + config.getString("ShortCommand").replace("/", ""));
         } else {
         	ShortCommand.clear();
         	output("No alias added!");
