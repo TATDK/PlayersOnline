@@ -2,6 +2,9 @@ Plugin: AdminsOnline
 Author: TAT
 CHANGELOG
 
+0.9
+Updated to latest recommended CraftBukkit [#617]
+
 0.8
 Fixed when no PermissionsColors set for an admin group
 

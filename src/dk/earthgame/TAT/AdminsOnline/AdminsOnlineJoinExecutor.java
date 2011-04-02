@@ -1,7 +1,7 @@
 package dk.earthgame.TAT.AdminsOnline;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 
 /**
@@ -15,7 +15,8 @@ public class AdminsOnlineJoinExecutor extends PlayerListener {
 		this.worker = worker;
 	}
 	
-	public void onPlayerJoin(PlayerEvent event) {
+	@Override
+	public void onPlayerJoin(PlayerJoinEvent event) {
 		if (AdminsOnline.ShowOnLogin) {
 			Player player = event.getPlayer();
 			String world = player.getWorld().getName().toString();

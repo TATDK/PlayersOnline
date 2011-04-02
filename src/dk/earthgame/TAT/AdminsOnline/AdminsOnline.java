@@ -141,7 +141,6 @@ public class AdminsOnline extends JavaPlugin {
             InputStream input = AdminsOnline.class.getResourceAsStream("/config/" + name);
             if (input != null) {
                 FileOutputStream output = null;
-
                 try {
                     output = new FileOutputStream(actual);
                     byte[] buf = new byte[8192];
