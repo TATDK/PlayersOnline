@@ -1,6 +1,12 @@
-Plugin: AdminsOnline
+Plugin: PlayersOnline
 Author: TAT
 CHANGELOG
+
+1.0
+Support for multiworlds (Config: Multiworld)
+Command changed from /adminsonline to /admins
+Added command /players
+Changed name from AdminsOnline to PlayersOnline
 
 0.9
 Updated to latest recommended CraftBukkit [#617]

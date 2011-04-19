@@ -1,11 +1,11 @@
-package dk.earthgame.TAT.AdminsOnline;
+package dk.earthgame.TAT.PlayersOnline;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class AdminsOnlineDisabled implements CommandExecutor {
-	public AdminsOnlineDisabled(AdminsOnline instance) {
+public class PlayersOnlineDisabled implements CommandExecutor {
+	public PlayersOnlineDisabled(PlayersOnline instance) {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

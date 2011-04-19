@@ -1,4 +1,4 @@
-Plugin: AdminsOnline
+Plugin: PlayersOnline
 Author: TAT
 TODO
 

@@ -1,5 +1,5 @@
 ##
-#Plugin: AdminsOnline
+#Plugin: PlayersOnline
 #Author: TAT
 #CONFIGURATION
 ##
@@ -10,6 +10,13 @@
 #Example: true = activate // false = deactivate
 ##
 ShowInfo: true
+
+##
+#Config: Multiworld
+#Doing: Activate support for multiworlds
+#Example: true = activate // false = deactivate
+##
+Multiworld: true
 
 ##
 #Config: UseOP / UsePermissions

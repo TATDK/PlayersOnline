@@ -1,10 +1,13 @@
-name: AdminsOnline
-main: dk.earthgame.TAT.AdminsOnline.AdminsOnline
-version: 0.9
+name: PlayersOnline
+main: dk.earthgame.TAT.PlayersOnline.PlayersOnline
+version: 1.0
 commands:
-    adminsonline:
+    admins:
         description: Show which admins there are online
-        usage: /adminsonline [player]
+        usage: /adminsonline [name]
+    players:
+        description: Show which players there are online
+        usage: /adminsonline [name]
     reloadao:
         description: Reload AdminsOnline properties
         usage: /reloadao
