@@ -46,12 +46,12 @@ public class PlayersOnlineWorker {
 	void showTotalAdminsOnline(String world,CommandSender sender) {
 		int adminsOnline = adminsCount(world);
 		if (adminsOnline == 0) {
-			sender.sendMessage(ChatColor.RED + "No admins online");
+			sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_NoAdmins));
 		} else {
 			if (adminsOnline > 1) {
-				sender.sendMessage(ChatColor.WHITE + "" + adminsOnline + ChatColor.RED + " Online Admins");
+				sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Admins,ChatColor.WHITE + "" + adminsOnline + ChatColor.RED));
 			} else {
-				sender.sendMessage(ChatColor.WHITE + "" + adminsOnline + ChatColor.RED + " Online Admin");
+				sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Admin,ChatColor.WHITE + "" + adminsOnline + ChatColor.RED));
 			}
 		}
 	}
@@ -59,12 +59,12 @@ public class PlayersOnlineWorker {
 	void showTotalAdminsOnline(CommandSender sender) {
 		int adminsOnline = adminsCount();
 		if (adminsOnline == 0) {
-			sender.sendMessage(ChatColor.RED + "No admins online");
+			sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_NoAdmins));
 		} else {
 			if (adminsOnline > 1) {
-				sender.sendMessage(ChatColor.WHITE + "" + adminsOnline + ChatColor.RED + " Online Admins");
+				sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Admins,ChatColor.WHITE + "" + adminsOnline + ChatColor.RED));
 			} else {
-				sender.sendMessage(ChatColor.WHITE + "" + adminsOnline + ChatColor.RED + " Online Admin");
+				sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Admin,ChatColor.WHITE + "" + adminsOnline + ChatColor.RED));
 			}
 		}
 	}
@@ -110,18 +110,18 @@ public class PlayersOnlineWorker {
 	void showTotalPlayersOnline(CommandSender sender) {
 		int playersOnline = playersCount();
 		if (playersOnline > 1) {
-			sender.sendMessage(ChatColor.WHITE + "" + playersOnline + ChatColor.RED + " Online Players");
+			sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Players,ChatColor.WHITE + "" + playersOnline + ChatColor.RED));
 		} else {
-			sender.sendMessage(ChatColor.WHITE + "" + playersOnline + ChatColor.RED + " Online Player");
+			sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Player,ChatColor.WHITE + "" + playersOnline + ChatColor.RED));
 		}
 	}
 
 	void showTotalPlayersOnline(String world,CommandSender sender) {
 		int playersOnline = playersCount(world);
 		if (playersOnline > 1) {
-			sender.sendMessage(ChatColor.WHITE + "" + playersOnline + ChatColor.RED + " Online Players");
+			sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Players,ChatColor.WHITE + "" + playersOnline + ChatColor.RED));
 		} else {
-			sender.sendMessage(ChatColor.WHITE + "" + playersOnline + ChatColor.RED + " Online Player");
+			sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Player,ChatColor.WHITE + "" + playersOnline + ChatColor.RED));
 		}
 	}
 	

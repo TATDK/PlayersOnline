@@ -44,22 +44,26 @@ public class PlayersOnlineCommandExecutor implements CommandExecutor {
 				int adminStatus = plugin.playerIsAdmin(world,args[0]);
 				if (adminStatus > 0) {
   					if (plugin.getServer().getPlayer(args[0]) != null) {
-  						if (plugin.getServer().getPlayer(args[0]).isOnline()) {
-  							sender.sendMessage(ChatColor.GREEN + args[0] + " is online!");
+  						Player player = plugin.getServer().getPlayer(args[0]);
+  						if (player.isOnline()) {
+  							sender.sendMessage(ChatColor.GREEN + String.format(plugin.msg_Online, args[0]));
+  							if (plugin.Multiworld) {
+  								sender.sendMessage(ChatColor.GREEN + String.format(plugin.msg_World,player.getWorld().getName()));
+  							}
   	  						if (adminStatus == 2) {
-  	  							sender.sendMessage(ChatColor.GREEN + "Group: " + plugin.playerColor(world,plugin.getServer().getPlayer(args[0]).getName()) + plugin.playerGroup(world,plugin.getServer().getPlayer(args[0])));
+  	  							sender.sendMessage(ChatColor.GREEN + String.format(plugin.msg_Group, plugin.playerColor(world,player.getName()) + plugin.playerGroup(world,player) + ChatColor.GREEN));
   	  						}
   	  						return true;
   						} else {
-  							sender.sendMessage(ChatColor.RED + args[0] + " isn't online!");
+  							sender.sendMessage(ChatColor.RED + String.format(plugin.msg_Offline, args[0]));
   				  			return true;
   						}
   					} else {
-  						sender.sendMessage(ChatColor.RED + args[0] + " isn't online!");
+  						sender.sendMessage(ChatColor.RED + String.format(plugin.msg_Offline, args[0]));
   			  			return true;
   					}
   				} else {
-  					sender.sendMessage(ChatColor.DARK_RED + args[0] + " isn't an admin!");
+  					sender.sendMessage(ChatColor.DARK_RED + String.format(plugin.msg_NotAdmin, args[0]));
   		  			return true;
   				}
   			} else {
@@ -78,15 +82,19 @@ public class PlayersOnlineCommandExecutor implements CommandExecutor {
   		if (command.getName().equalsIgnoreCase("players")) {
 			if (args.length > 0) {
 				if (plugin.getServer().getPlayer(args[0]) != null) {
-					if (plugin.getServer().getPlayer(args[0]).isOnline()) {
-						sender.sendMessage(ChatColor.GREEN + args[0] + " is online!");
+					Player player = plugin.getServer().getPlayer(args[0]);
+					if (player.isOnline()) {
+						sender.sendMessage(ChatColor.GREEN + "" + String.format(plugin.msg_Online, args[0]));
+						if (plugin.Multiworld) {
+							sender.sendMessage(ChatColor.GREEN + String.format(plugin.msg_World,player.getWorld().getName()));
+						}
   						return true;
 					} else {
-						sender.sendMessage(ChatColor.RED + args[0] + " isn't online!");
+						sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Offline, args[0]));
 			  			return true;
 					}
 				} else {
-					sender.sendMessage(ChatColor.RED + args[0] + " isn't online!");
+					sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Offline, args[0]));
 		  			return true;
 				}
   			} else {

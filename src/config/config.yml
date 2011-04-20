@@ -34,11 +34,21 @@ UsePermissions: true
 ShowOnLogin: true
 
 ##
-#Config: ShortCommand
-#Doing: Here you can type a short command for users to use aside with /adminsonline
-#Example: admins
+#Config: Messages
+#Doing: Change the different messages
+#       %s is text inserted by plugin
 ##
-ShortCommand: "admins"
+Messages:
+    Admin: "%s Online Admin"
+    Admins: "%s Online Admins"
+    NoAdmins: "No admins online"
+    Player: "%s Online Player"
+    Players: "%s Online Players"
+    Online: "%s is online!"
+    Offline: "%s isn't online!"
+    NotAdmin: "%s isn't an admin!"
+    Group: "Group: %s"
+    World: "World: %s"
 
 ##
 #Config: PermissionGroups

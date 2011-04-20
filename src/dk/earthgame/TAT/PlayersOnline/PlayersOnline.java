@@ -41,6 +41,16 @@ public class PlayersOnline extends JavaPlugin {
 	boolean UsePermissions = true;
 	boolean ShowOnLogin = true;
 	boolean Multiworld = true;
+	String msg_Admin;
+	String msg_Admins;
+	String msg_NoAdmins;
+	String msg_Player;
+	String msg_Players;
+	String msg_Online;
+	String msg_Offline;
+	String msg_NotAdmin;
+	String msg_Group;
+	String msg_World;
 	
 	PlayersOnlineWorker worker = new PlayersOnlineWorker(this);
 	List<String> ShortCommand = new ArrayList<String>();
@@ -145,6 +155,19 @@ public class PlayersOnline extends JavaPlugin {
 			ShortCommand.clear();
 			//output("No alias added!");
 		}
+		
+		//Messages
+		msg_Admin = config.getString("Messages.Admin", "%f Online Admin");
+		msg_Admins = config.getString("Messages.Admins", "%f Online Admins");
+		msg_NoAdmins = config.getString("Messages.NoAdmins", "No admins online");
+		msg_Player = config.getString("Messages.Player", "%f Online Player");
+		msg_Players = config.getString("Messages.Players", "%f Online Players");
+		msg_Online = config.getString("Messages.Online", "%s is online!");
+		msg_Offline = config.getString("Messages.Offline", "%s isn't online!");
+		msg_NotAdmin = config.getString("Messages.NotAdmin", "%s isn't an admin!");
+		msg_Group = config.getString("Messages.Group", "Group: %s");
+		msg_World = config.getString("Messages.World", "World: %s");
+		
 		PermissionGroups = (Map<String, String>)config.getProperty("PermissionGroups");
 		PermissionColors = (Map<String, String>)config.getProperty("PermissionColors");
 	}
