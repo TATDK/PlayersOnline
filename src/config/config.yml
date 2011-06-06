@@ -51,13 +51,13 @@ Messages:
     World: "World: %s"
 
 ##
-#Config: PermissionGroups
-#Doing: Here you can setup the groups in Permissions that are registered as admins by AdminsOnline
+#Config: AdminGroups
+#Doing: Here you can setup the groups in Permissions that are registered as admins by PlayersOnline
 #       Every group is setup like this:
 #           Groupname in Permissions: Shown name 
 #       Remember comma between groups and write the groups between the { and }.
 ##
-PermissionGroups: {
+AdminGroups: {
     OwnerGroup: Owners,
     SupAdminGroup: Super-Admins,
     AdminGroup: Admins,
@@ -66,7 +66,7 @@ PermissionGroups: {
 }
 
 ##
-#Config: PermissionColors
+#Config: GroupColors
 #Doing: Here you can setup colors for the groups set in PermissionGroups
 #       Every group is setup like this:
 #           Groupname in Permissions: Color 
@@ -89,7 +89,7 @@ PermissionGroups: {
 #       white
 #       yellow
 ##
-PermissionColors: {
+GroupColors: {
     OwnerGroup: gold,
     SupAdminGroup: dark_red,
     AdminGroup: red,

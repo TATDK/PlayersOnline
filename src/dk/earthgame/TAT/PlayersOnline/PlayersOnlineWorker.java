@@ -69,6 +69,7 @@ public class PlayersOnlineWorker {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	void showAdminsOnline(String world,CommandSender sender) {
 		String tempList = "";
 		int x = 0;
@@ -125,6 +126,7 @@ public class PlayersOnlineWorker {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	void showPlayersOnline(String world,CommandSender sender) {
 		String tempList = "";
 		int x = 0;

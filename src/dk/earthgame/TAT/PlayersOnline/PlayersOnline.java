@@ -30,15 +30,15 @@ import com.nijikokun.bukkit.Permissions.Permissions;
  * PlayersOnline for Bukkit
  *
  * @author TAT
+ * @version 1.0
  */
 public class PlayersOnline extends JavaPlugin {
 	Permissions Permissions = null;
-	boolean usePermissions = false;
+	boolean UsePermissions = false;
 	PluginDescriptionFile pdfFile;
 	Configuration config;
 	boolean ShowInfo = true;
 	boolean UseOP = true;
-	boolean UsePermissions = true;
 	boolean ShowOnLogin = true;
 	boolean Multiworld = true;
 	String msg_Admin;
@@ -54,10 +54,12 @@ public class PlayersOnline extends JavaPlugin {
 	
 	PlayersOnlineWorker worker = new PlayersOnlineWorker(this);
 	List<String> ShortCommand = new ArrayList<String>();
-	//PermissionGroups = Groupname, Shown Groupname
-	Map<String, String> PermissionGroups = new HashMap<String, String>();
-	//PermissionColors = Groupname, Groupcolor
-	Map<String, String> PermissionColors = new HashMap<String, String>();
+	//AdminGroups = Groupname, Shown Groupname
+	Map<String, String> AdminGroups = new HashMap<String, String>();
+	//GroupColors = Groupname, Groupcolor
+	Map<String, String> GroupColors = new HashMap<String, String>();
+	//Player = Groupname, Shown Groupname
+	Map<String, String> PlayerGroups = new HashMap<String, String>();
 
 	private PlayersOnlineJoinExecutor joinExecutor;
 	
@@ -168,8 +170,8 @@ public class PlayersOnline extends JavaPlugin {
 		msg_Group = config.getString("Messages.Group", "Group: %s");
 		msg_World = config.getString("Messages.World", "World: %s");
 		
-		PermissionGroups = (Map<String, String>)config.getProperty("PermissionGroups");
-		PermissionColors = (Map<String, String>)config.getProperty("PermissionColors");
+		AdminGroups = (Map<String, String>)config.getProperty("AdminGroups");
+		GroupColors = (Map<String, String>)config.getProperty("GroupColors");
 	}
 	
 	private void createDefaultConfiguration() {
@@ -208,8 +210,16 @@ public class PlayersOnline extends JavaPlugin {
 		}
 	}
 	
+	/**
+	 * 
+	 * @deprecated
+	 * @param world
+	 * @param player
+	 * @return
+	 * @see #playerColor(String)
+	 */
 	public ChatColor playerColor(String world,String player) {
-		String color = PermissionColors.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player));
+		String color = GroupColors.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player));
 		if (color != null) {
 			if (color.equalsIgnoreCase("aqua"))
 				return ChatColor.AQUA;
@@ -245,15 +255,82 @@ public class PlayersOnline extends JavaPlugin {
 		return ChatColor.WHITE;
 	}
 	
+	public ChatColor playerColor(String group) {
+		String color = GroupColors.get(group);
+		if (color != null) {
+			if (color.equalsIgnoreCase("aqua"))
+				return ChatColor.AQUA;
+			if (color.equalsIgnoreCase("black"))
+				return ChatColor.BLACK;
+			if (color.equalsIgnoreCase("blue"))
+				return ChatColor.BLUE;
+			if (color.equalsIgnoreCase("dark_aqua"))
+				return ChatColor.DARK_AQUA;
+			if (color.equalsIgnoreCase("dark_blue"))
+				return ChatColor.DARK_BLUE;
+			if (color.equalsIgnoreCase("dark_gray"))
+				return ChatColor.DARK_GRAY;
+			if (color.equalsIgnoreCase("dark_green"))
+				return ChatColor.DARK_GREEN;
+			if (color.equalsIgnoreCase("dark_purple"))
+				return ChatColor.DARK_PURPLE;
+			if (color.equalsIgnoreCase("dark_red"))
+				return ChatColor.DARK_RED;
+			if (color.equalsIgnoreCase("gold"))
+				return ChatColor.GOLD;
+			if (color.equalsIgnoreCase("gray"))
+				return ChatColor.GRAY;
+			if (color.equalsIgnoreCase("green"))
+				return ChatColor.GREEN;
+			if (color.equalsIgnoreCase("light_purple"))
+				return ChatColor.LIGHT_PURPLE;
+			if (color.equalsIgnoreCase("red"))
+				return ChatColor.RED;
+			if (color.equalsIgnoreCase("yellow"))
+				return ChatColor.YELLOW;
+		}
+		return ChatColor.WHITE;
+	}
+	
+	/**
+	 * 
+	 * @deprecated
+	 * @param world
+	 * @param player
+	 * @return
+	 * @see #getPlayerGroups(String, Player)
+	 */
 	public String playerGroup(String world,Player player) {
 		if (UsePermissions) {
-			if (PermissionGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player.getName())) != null) {
-				return PermissionGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player.getName()));
+			if (AdminGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player.getName())) != null) {
+				return AdminGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player.getName()));
+			} else if (PlayerGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player.getName())) != null) {
+				return PlayerGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player.getName()));
 			} else {
 				return "";
 			}
 		} else {
 			return "";
+		}
+	}
+	
+	/**
+	 * Get the groups the player is in
+	 * 
+	 * @param world
+	 * @param player
+	 * @since 0.5.1
+	 * @return
+	 */
+	public String[] getPlayerGroups(String world,Player player) {
+		if (UsePermissions) {
+			if (Permissions.getHandler().getGroups(world,player.getName()) != null) {
+				return Permissions.getHandler().getGroups(world,player.getName());
+			} else {
+				return null;
+			}
+		} else {
+			return null;
 		}
 	}
 
@@ -271,11 +348,19 @@ public class PlayersOnline extends JavaPlugin {
 		return true;
 	}
 	
-	public Integer playerIsAdmin(String world,String player) {
+	/**
+	 * Is the player an admin?
+	 * 
+	 * @param world
+	 * @param player
+	 * @return 2: Permissions admin - 1: OP - 0: not admin
+	 */
+	@SuppressWarnings("deprecation")
+	public int playerIsAdmin(String world,String player) {
 		if (player != null) {
 			if (UsePermissions) {
 				if (com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world, player) != null) {
-					if (PermissionGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player)) != null) {
+					if (AdminGroups.get(com.nijikokun.bukkit.Permissions.Permissions.Security.getGroup(world,player)) != null) {
 						return 2;
 					}
 				}

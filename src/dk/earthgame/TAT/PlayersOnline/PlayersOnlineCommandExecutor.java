@@ -20,6 +20,7 @@ public class PlayersOnlineCommandExecutor implements CommandExecutor {
 		this.worker = worker;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		String world = sender instanceof Player ? ((Player) sender).getWorld().getName().toString() : plugin.getServer().getWorlds().get(0).getName().toString();
@@ -88,6 +89,9 @@ public class PlayersOnlineCommandExecutor implements CommandExecutor {
 						if (plugin.Multiworld) {
 							sender.sendMessage(ChatColor.GREEN + String.format(plugin.msg_World,player.getWorld().getName()));
 						}
+  						if (plugin.UsePermissions && plugin.playerGroup(world, player) != "") {
+  							sender.sendMessage(ChatColor.GREEN + String.format(plugin.msg_Group, plugin.playerColor(world,player.getName()) + plugin.playerGroup(world,player) + ChatColor.GREEN));
+  						}
   						return true;
 					} else {
 						sender.sendMessage(ChatColor.RED + "" + String.format(plugin.msg_Offline, args[0]));
